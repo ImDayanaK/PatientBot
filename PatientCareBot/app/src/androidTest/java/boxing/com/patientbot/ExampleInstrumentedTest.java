@@ -1,4 +1,4 @@
-package boxing.com.patientcarebot;
+package boxing.com.patientbot;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
