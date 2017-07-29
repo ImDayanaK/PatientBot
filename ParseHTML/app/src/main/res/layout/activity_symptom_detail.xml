@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="parsehtml.com.parsehtml.SymptomDetailActivity">
+
+    <TextView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Summary" />
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Symptoms" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detaillist"
+        android:name="com.emishealth.emismobile.appointments.fragments.AllergyFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_results"
+        android:layout_margin="20dp"
+        android:background="@drawable/listoutline_all_borders"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".fragments.AllergyFragment"
+        tools:listitem="@layout/fragment_detail_item" />
+
+
+</LinearLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="parsehtml.com.parsehtml.MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="USE CASE: Symptoms Search"
+        android:textColor="#212121"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/inputSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="27dp"
+        android:textColor="#212121"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="230dp" />
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputSearch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:background="#2196F3"
+        android:text="Search"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="230dp" />
+
+    <TextView
+        android:id="@+id/search_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Search Results"
+        android:textColor="#212121"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchlistview"
+        android:name="com.emishealth.emismobile.appointments.fragments.AllergyFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_results"
+        android:layout_margin="20dp"
+        android:background="@drawable/listoutline_all_borders"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".fragments.AllergyFragment"
+        tools:listitem="@layout/fragment_search_item" />
+
+
+</RelativeLayout>
