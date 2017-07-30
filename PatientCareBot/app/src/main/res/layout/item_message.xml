@@ -6,45 +6,86 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="right"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/messengerImageView"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/ic_account_circle_black_36dp"/>
+            android:id="@+id/messengerImageViewbot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-10dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_weight="1"
+            android:src="@drawable/bot" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:layout_weight="6"
+            android:background="@drawable/rounded_corner"
+            android:padding="16dp"
+            android:textColor="#000" />
 
-            <TextView
-                android:id="@+id/messageTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/messengerImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_weight="1"
+            android:src="@drawable/bot" />
 
-            <ImageView
-                android:id="@+id/messageImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@color/colorPrimary"
-                android:scaleType="fitCenter"/>
+        <!--   <ImageView
+               android:id="@+id/imageView2"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:layout_marginTop="0dp"
+               android:layout_weight="3"
+               android:src="@drawable/bot" />-->
 
-            <TextView
-                android:id="@+id/messengerTextViewContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parentLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/messengerImageView1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="3"
+            android:src="@drawable/bot" />
+
+        <!--   <ImageView
+               android:id="@+id/imageView1"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_marginRight="-15dp"
+               android:layout_marginTop="6.5dp"
+               android:layout_weight="1"
+               android:src="@drawable/bot" />
+-->
+        <TextView
+            android:id="@+id/messengerTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="6"
+            android:background="@drawable/rounded_corner1"
+            android:padding="16dp"
+            android:textColor="#000" />
+
     </LinearLayout>
 </LinearLayout>
