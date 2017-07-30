@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/highlight_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:flexWrap="wrap"
+    app:flexDirection="row">
+
+
+    <Button
+        android:id="@+id/textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        app:layout_flexBasisPercent="50%"
+        android:text="button1"
+        />
+
+    <Button
+        android:id="@+id/textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        app:layout_alignSelf="center"
+        android:layout_margin="10dp"
+
+        android:text="button2"
+        />
+
+    <Button
+        android:id="@+id/textview3"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+
+        app:layout_alignSelf="flex_end"
+        android:text="button3"
+        />
+    </com.google.android.flexbox.FlexboxLayout>
+
+

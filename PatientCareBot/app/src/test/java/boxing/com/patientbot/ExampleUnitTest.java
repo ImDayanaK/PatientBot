@@ -1,4 +1,4 @@
-package boxing.com.patientcarebot;
+package boxing.com.patientbot;
 
 import org.junit.Test;
 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "70461066649",
+    "firebase_url": "https://patientbot-1424b.firebaseio.com",
+    "project_id": "patientbot-1424b",
+    "storage_bucket": "patientbot-1424b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70461066649:android:3d2ef008267f492b",
+        "android_client_info": {
+          "package_name": "com.patientbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70461066649-cjshqkbc9ilvihqpvvgs1a2b0hhfg509.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.patientbot",
+            "certificate_hash": "9b791df8d34685a30b0cc749c55183118f35c0d0"
+          }
+        },
+        {
+          "client_id": "70461066649-smto9gro7l3r41316j1endoj43u4dshn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDLEWOzPOlYxbamDmdSJtV3hSN9R75gl0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70461066649-smto9gro7l3r41316j1endoj43u4dshn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

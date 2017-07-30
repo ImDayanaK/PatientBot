@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/message_container"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/messengerImageViewbot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-10dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_weight="1"
+            android:src="@drawable/bot" />
+
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="6"
+            android:background="@drawable/rounded_corner"
+            android:padding="16dp"
+            android:textColor="#000" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/messengerImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_weight="1"
+            android:src="@drawable/bot" />
+
+        <!--   <ImageView
+               android:id="@+id/imageView2"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:layout_marginTop="0dp"
+               android:layout_weight="3"
+               android:src="@drawable/bot" />-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parentLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/messengerImageView1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="3"
+            android:src="@drawable/bot" />
+
+        <!--   <ImageView
+               android:id="@+id/imageView1"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_marginRight="-15dp"
+               android:layout_marginTop="6.5dp"
+               android:layout_weight="1"
+               android:src="@drawable/bot" />
+-->
+        <TextView
+            android:id="@+id/messengerTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="6"
+            android:background="@drawable/rounded_corner1"
+            android:padding="16dp"
+            android:textColor="#000" />
+
+    </LinearLayout>
+</LinearLayout>
