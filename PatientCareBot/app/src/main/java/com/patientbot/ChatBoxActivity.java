@@ -138,6 +138,9 @@ public class ChatBoxActivity extends AppCompatActivity
     private FirebaseRecyclerAdapter<BotMessage, MessageViewHolder> mFirebaseAdapter;
    // private String symptoms = "";
     private List<String> responseList = new ArrayList<>();
+    String url = "https://patient.info/search.asp?searchTerm=";
+    String collectionBind = "&collections=All";
+    String serviceUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -477,8 +480,11 @@ public class ChatBoxActivity extends AppCompatActivity
                 userInteractionLinearLayout.setVisibility(View.GONE);
                 symptomSendParent.setVisibility(View.GONE);
                 optionsParent.setVisibility(View.GONE);
-                mSearchTerm.setText(result.getParameters().get("SearchTerm").getAsString());
+                String searchTerm = result.getParameters().get("SearchTerm").getAsString();
+                mSearchTerm.setText(searchTerm);
                 mSearchInfoParent.setVisibility(View.VISIBLE);
+                serviceUrl =  url + searchTerm + collectionBind;
+                new SearchTermAsync(this,serviceUrl).execute();
             }
         }
         updateToFirebase(result.getFulfillment().getSpeech());
@@ -494,6 +500,9 @@ public class ChatBoxActivity extends AppCompatActivity
                 .push().setValue(botMessage);
     }
 
+    public void updateViewOnResult(){
+
+    }
     @Override
     public void onError(AIError error) {
     }

@@ -60,6 +60,8 @@ dependencies {
 
     // Flex layout
     compile 'com.google.android:flexbox:0.1.3'
+    // Doc parsing
+    compile 'org.jsoup:jsoup:1.10.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
