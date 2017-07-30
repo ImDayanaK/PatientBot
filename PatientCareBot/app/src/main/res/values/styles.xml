@@ -24,4 +24,12 @@
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:textColor">@color/colorTitle</item>
     </style>
+
+    <style name="TextViewPrimaryTxt18Bold" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/dp_10</item>
+    </style>
+
 </resources>

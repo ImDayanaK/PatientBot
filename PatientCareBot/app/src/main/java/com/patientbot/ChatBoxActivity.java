@@ -15,10 +15,10 @@
  */
 package com.patientbot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,13 +26,11 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ScrollingView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,9 +39,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -57,29 +55,17 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import ai.api.AIListener;
 import ai.api.AIServiceException;
@@ -89,9 +75,7 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
-import ai.api.model.Metadata;
 import ai.api.model.Result;
-import ai.api.util.StringUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatBoxActivity extends AppCompatActivity
@@ -118,9 +102,10 @@ public class ChatBoxActivity extends AppCompatActivity
     private Button mNoneOfThese;
     private Button btnYes;
     private Button btnNo;
-    private LinearLayout mSearchInfoParent;
-    private TextView mSearchTerm;
-    private TextView mSearchMoreInfo;
+    private LinearLayout searchInfoParent;
+    private TextView tvSearchTerm;
+    private TextView searchMoreInfo;
+    private TextView searchTermContent;
     private RecyclerView mMessageRecyclerView;
     private FlexboxLayout mFlexibleLayout;
     private LinearLayoutManager mLinearLayoutManager;
@@ -138,10 +123,11 @@ public class ChatBoxActivity extends AppCompatActivity
     private FirebaseRecyclerAdapter<BotMessage, MessageViewHolder> mFirebaseAdapter;
    // private String symptoms = "";
     private List<String> responseList = new ArrayList<>();
-    String url = "https://patient.info/search.asp?searchTerm=";
-    String collectionBind = "&collections=All";
-    String serviceUrl;
-
+    private String url = "https://patient.info/search.asp?searchTerm=";
+    private String collectionBind = "&collections=All";
+    private String serviceUrl;
+    private String searchTerm;
+    private SymptomsSearchModel symptomsSearchModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +150,7 @@ public class ChatBoxActivity extends AppCompatActivity
         userInteractionLinearLayout = (LinearLayout) findViewById(R.id.userInteractionLinearLayout);
         symptomSendParent = (LinearLayout) findViewById(R.id.symptom_send_parent);
         optionsParent = (LinearLayout) findViewById(R.id.option_parent);
-        mSearchInfoParent = (LinearLayout) findViewById(R.id.search_term_parent);
+        searchInfoParent = (LinearLayout) findViewById(R.id.search_term_parent);
         mMike = (ImageView) findViewById(R.id.imageMike);
         mMike.setOnClickListener(this);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -198,8 +184,10 @@ public class ChatBoxActivity extends AppCompatActivity
         btnYes.setOnClickListener(this);
         btnNo = (Button) findViewById(R.id.option_no);
         btnNo.setOnClickListener(this);
-        mSearchTerm = (TextView) findViewById(R.id.searchTerm);
-        mSearchMoreInfo = (TextView) findViewById(R.id.moreInfo);
+        tvSearchTerm = (TextView) findViewById(R.id.searchTerm);
+        searchMoreInfo = (TextView) findViewById(R.id.moreInfo);
+        searchMoreInfo.setOnClickListener(this);
+        searchTermContent = (TextView) findViewById(R.id.searchTermContent);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
@@ -279,22 +267,38 @@ public class ChatBoxActivity extends AppCompatActivity
         }
     }
 
+    public static void hideKeyBoard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.sendButton)
+        if (id == R.id.sendButton) {
             sendMessageToFireBaseDatabaseAndUpdateApi(mMessageEditText.getText().toString());
-        else if(id == R.id.symptom_send)
+            hideKeyBoard(mMessageEditText);
+        }
+        else if(id == R.id.symptom_send) {
             sendSelectedSymptomsInOrder();
-        else if (id == R.id.symptom_none)
-           updateViewOnSelectingNone(view);
-        else if (id == R.id.imageMike)
+        }
+        else if (id == R.id.symptom_none) {
+            updateViewOnSelectingNone(view);
+        }
+        else if (id == R.id.imageMike) {
             promptSpeechInput();
-        else if (id == R.id.option_yes || id == R.id.option_no)
+        }
+        else if (id == R.id.option_yes || id == R.id.option_no) {
             sendOptionToApi(view);
-         else if (view instanceof Button)
+        }
+        else if(id == R.id.moreInfo) {
+            loadPatientInfo();
+        }
+        else if (view instanceof Button) {
             updateViewState(view);
-
+        }
     }
 
     private void sendSelectedSymptomsInOrder(){
@@ -336,10 +340,17 @@ public class ChatBoxActivity extends AppCompatActivity
         startActivityForResult(intent, 1);
     }
 
+    private void loadPatientInfo(){
+        if(symptomsSearchModel!=null) {
+            Intent launchPatientDetailPage = new Intent(this, PatientInfoDetailActivity.class);
+            launchPatientDetailPage.putExtra("search_item_url", symptomsSearchModel.getRefLink());
+            startActivity(launchPatientDetailPage);
+        }
+    }
     private void updateViewState(View view){
         String tag = view.getTag().toString();
         if(responseList.contains(tag)){
-            view.setBackgroundColor(ContextCompat.getColor(this, R.color.lightblue));
+            view.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
             responseList.remove(tag);
         }else{
             responseList.add(tag);
@@ -446,7 +457,7 @@ public class ChatBoxActivity extends AppCompatActivity
                     button.setOnClickListener(this);
                     button.setTextColor(ContextCompat.getColor(this, R.color.colorTitle));
                     //  button.setBackgroundResource(R.drawable.button_selector);//rounded_border_blue_bg_text_view
-                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.lightblue));
+                    button.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
                     mFlexibleLayout.addView(button);
                     buttonList.add(button);
                 }
@@ -462,7 +473,7 @@ public class ChatBoxActivity extends AppCompatActivity
                 userInteractionLinearLayout.setVisibility(View.GONE);
                 symptomSendParent.setVisibility(View.VISIBLE);
                 optionsParent.setVisibility(View.GONE);
-                mSearchInfoParent.setVisibility(View.GONE);
+                searchInfoParent.setVisibility(View.GONE);
             } else if (result.getParameters().get("SingleOptionList") != null) {
                 RelativeLayout.LayoutParams msgParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -471,19 +482,10 @@ public class ChatBoxActivity extends AppCompatActivity
                 userInteractionLinearLayout.setVisibility(View.GONE);
                 symptomSendParent.setVisibility(View.GONE);
                 optionsParent.setVisibility(View.VISIBLE);
-                mSearchInfoParent.setVisibility(View.GONE);
+                searchInfoParent.setVisibility(View.GONE);
             } else if (result.getParameters().get("SearchTerm") != null) {
-                RelativeLayout.LayoutParams msgParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                msgParam.addRule(RelativeLayout.ABOVE, R.id.symptom_option_parent);
-                mMessageRecyclerView.setLayoutParams(msgParam);
-                userInteractionLinearLayout.setVisibility(View.GONE);
-                symptomSendParent.setVisibility(View.GONE);
-                optionsParent.setVisibility(View.GONE);
-                String searchTerm = result.getParameters().get("SearchTerm").getAsString();
-                mSearchTerm.setText(searchTerm);
-                mSearchInfoParent.setVisibility(View.VISIBLE);
-                serviceUrl =  url + searchTerm + collectionBind;
+                searchTerm = result.getParameters().get("SearchTerm").getAsString();
+                serviceUrl =  url + searchTerm.replaceAll(" ", "%20") + collectionBind;
                 new SearchTermAsync(this,serviceUrl).execute();
             }
         }
@@ -500,7 +502,18 @@ public class ChatBoxActivity extends AppCompatActivity
                 .push().setValue(botMessage);
     }
 
-    public void updateViewOnResult(){
+    public void updateViewOnResult(SymptomsSearchModel symptomsSearchModel){
+        this.symptomsSearchModel = symptomsSearchModel;
+        RelativeLayout.LayoutParams msgParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        msgParam.addRule(RelativeLayout.ABOVE, R.id.symptom_option_parent);
+        mMessageRecyclerView.setLayoutParams(msgParam);
+        userInteractionLinearLayout.setVisibility(View.GONE);
+        symptomSendParent.setVisibility(View.GONE);
+        optionsParent.setVisibility(View.GONE);
+        searchInfoParent.setVisibility(View.VISIBLE);
+        this.tvSearchTerm.setText(searchTerm);
+        this.searchTermContent.setText(symptomsSearchModel.getContent());
 
     }
     @Override

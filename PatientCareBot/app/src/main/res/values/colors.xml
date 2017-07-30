@@ -3,8 +3,10 @@
     <color name="colorPrimary">#127FC2</color>
     <color name="colorPrimaryDark">#127FC2</color>
     <color name="colorAccent">#2E7D32</color>
-    <color name="lightblue">#20B2AA</color>
+    <color name="blue">#20B2AA</color>
+    <color name="symptom_checked">#52e0d9</color>
     <color name="colorTitle">#ffffff</color>
     <color name="grey">#E4E4E4</color>
-
+    <color name="dark_green">#2E7D32</color>
+    <color name="primary_text">#212121</color>
 </resources>

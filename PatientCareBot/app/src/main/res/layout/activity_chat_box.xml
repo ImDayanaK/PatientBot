@@ -146,15 +146,28 @@
 
         <TextView
             android:id="@+id/searchTerm"
+            style="@style/TextViewPrimaryTxt18Bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:layout_marginTop="10dp"
             android:padding="16dp"
             android:textColor="#000" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightblue"/>
+            android:background="@color/blue"/>
+        <TextView
+            android:id="@+id/searchTermContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="#000000"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue"/>
         <TextView
             android:id="@+id/moreInfo"
             android:layout_width="wrap_content"
@@ -162,7 +175,7 @@
             android:padding="16dp"
             android:layout_gravity="end"
             android:text="more info >>"
-            android:textColor="@color/lightblue"/>
+            android:textColor="@color/blue"/>
 
         </LinearLayout>
     </LinearLayout>
